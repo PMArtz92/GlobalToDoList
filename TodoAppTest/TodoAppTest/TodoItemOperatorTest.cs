@@ -22,6 +22,73 @@ namespace TodoAppTest
         }
 
         [TestMethod]
+        public void CreateTodoItem_ItemNameNull_ReturnFail()
+        {
+            TodoItemModel item = new TodoItemModel();
+
+            int result = _todoItemOperator.CreateTodoItem(item);
+
+            Assert.IsTrue(result == OperationStatusCodes.INVALID_PARAMTERS);
+        }
+
+        [TestMethod]
+        public void CreateTodoItem_ItemStartDateOrEndDateNull_ReturnFail()
+        {
+            TodoItemModel item = new TodoItemModel { 
+                Name = "New Item"
+            };
+
+            int result = _todoItemOperator.CreateTodoItem(item);
+
+            Assert.IsTrue(result == OperationStatusCodes.INVALID_PARAMTERS);
+        }
+
+        [TestMethod]
+        public void CreateTodoItem_ItemHaveReoccurringPeriodWithoutReoccurringTrue_ReturnFail()
+        {
+            TodoItemModel item = new TodoItemModel
+            {
+                Name = "New Item",
+                ReoccurringPeriod = 2
+            };
+
+            int result = _todoItemOperator.CreateTodoItem(item);
+
+            Assert.IsTrue(result == OperationStatusCodes.INVALID_PARAMTERS);
+        }
+
+        [TestMethod]
+        public void CreateTodoItem_ItemHaveReoccurringTrueNoReoccuringPeriod_ReturnFail()
+        {
+            TodoItemModel item = new TodoItemModel
+            {
+                Name = "New Item",
+                IsReoccurring = true
+            };
+
+            int result = _todoItemOperator.CreateTodoItem(item);
+
+            Assert.IsTrue(result == OperationStatusCodes.INVALID_PARAMTERS);
+        }
+
+        [TestMethod]
+        public void CreateTodoItem_ItemHaveAllValidData_ReturnSuccess()
+        {
+            TodoItemModel item = new TodoItemModel
+            {
+                Name = "New Item",
+                IsReoccurring = true,
+                ReoccurringPeriod = 2,
+                StartDate = DateTime.Today,
+                EndDate = DateTime.Today.AddDays(2)
+            };
+
+            int result = _todoItemOperator.CreateTodoItem(item);
+
+            Assert.IsTrue(result == OperationStatusCodes.SUCCESS);
+        }
+
+        [TestMethod]
         public void GetAllFinishedItems_NoItemsFound_ReturnNotFound()
         {
             TodoResults result = _todoItemOperator.GetAllFinishedItems();
@@ -51,6 +118,91 @@ namespace TodoAppTest
             TodoResults result = _todoItemOperator.GetTodoItemsForGiveTimePeriod(2);
 
             Assert.IsTrue(result.status == OperationStatusCodes.SUCCESS);
+        }
+
+        [TestMethod]
+        public void SetTodoItemComplete_ItemIdNotValid_ReturnFail()
+        {
+            TodoItemModel item = new TodoItemModel
+            {
+                Name = "Item11"
+            };
+
+            int result = _todoItemOperator.SetTodoItemComplete(item);
+
+            Assert.IsTrue(result == OperationStatusCodes.INVALID_PARAMTERS);
+        }
+
+        [TestMethod]
+        public void SetTodoItemComplete_ItemNotFound_ReturnFail()
+        {
+            TodoItemModel item = new TodoItemModel {
+                Name = "Item11",
+                ItemId = 11
+            };
+
+            int result = _todoItemOperator.SetTodoItemComplete(item);
+
+            Assert.IsTrue(result == OperationStatusCodes.NOT_FOUND);
+        }
+
+        [TestMethod]
+        public void SetTodoItemComplete_ItemFound_ReturnSuccess()
+        {
+            TodoItemModel item = new TodoItemModel
+            {
+                Name = "Item11",
+                ItemId = 1
+            };
+
+            int result = _todoItemOperator.SetTodoItemComplete(item);
+
+            Assert.IsTrue(result == OperationStatusCodes.SUCCESS);
+        }
+
+        [TestMethod]
+        public void SetTodoItemFinish_ItemNotFound_ReturnFail()
+        {
+            TodoItemModel item = new TodoItemModel
+            {
+                Name = "Item11",
+                ItemId = 11,
+                IsComplete = true
+            };
+
+            int result = _todoItemOperator.SetTodoItemFinish(item);
+
+            Assert.IsTrue(result == OperationStatusCodes.NOT_FOUND);
+        }
+
+        [TestMethod]
+        public void SetTodoItemFinish_ItemNotCompleted_ReturnSuccess()
+        {
+            TodoItemModel item = new TodoItemModel
+            {
+                Name = "Item11",
+                ItemId = 1,
+                IsComplete = false
+            };
+
+            int result = _todoItemOperator.SetTodoItemFinish(item);
+
+            Assert.IsTrue(result == OperationStatusCodes.INVALID_OPERARION);
+        }
+
+        [TestMethod]
+        public void SetTodoItemFinish_ItemFound_ReturnSuccess()
+        {
+            TodoItemModel item = new TodoItemModel
+            {
+                Name = "Item11",
+                ItemId = 1,
+                IsComplete = true
+            };
+
+            int result = _todoItemOperator.SetTodoItemFinish(item);
+
+            Assert.IsTrue(result == OperationStatusCodes.SUCCESS);
         }
     }
 }
