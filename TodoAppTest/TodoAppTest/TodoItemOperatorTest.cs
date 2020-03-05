@@ -176,13 +176,12 @@ namespace TodoAppTest
         }
 
         [TestMethod]
-        public void SetTodoItemFinish_ItemNotCompleted_ReturnSuccess()
+        public void SetTodoItemFinish_ItemNotCompleted_ReturnFail()
         {
             TodoItemModel item = new TodoItemModel
             {
                 Name = "Item11",
-                ItemId = 1,
-                IsComplete = false
+                ItemId = 2,
             };
 
             int result = _todoItemOperator.SetTodoItemFinish(item);
