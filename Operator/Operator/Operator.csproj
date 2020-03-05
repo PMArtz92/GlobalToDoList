@@ -1,0 +1,13 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\Entities\Entities\Entities.csproj" />
+    <ProjectReference Include="..\..\Shared\Interfaces\Interfaces\Interfaces.csproj" />
+    <ProjectReference Include="..\..\Shared\Store\Store\Store.csproj" />
+  </ItemGroup>
+
+</Project>
