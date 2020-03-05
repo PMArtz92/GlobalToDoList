@@ -23,14 +23,7 @@ namespace Operator
             TodoResults itemsResults = new TodoResults();
             itemsResults.results = _dummyData.AllItems().Where(t => t.IsFinished == true).ToList();
 
-            if(itemsResults.results.Count == 0)
-            {
-                itemsResults.status = OperationStatusCodes.NOT_FOUND;
-            }
-            else
-            {
-                itemsResults.status = OperationStatusCodes.SUCCESS;
-            }
+            itemsResults.status = itemsResults.results.Any() ? OperationStatusCodes.SUCCESS :OperationStatusCodes.NOT_FOUND;
 
             return itemsResults;
         }
@@ -40,14 +33,7 @@ namespace Operator
             TodoResults itemsResults = new TodoResults();
             itemsResults.results = _dummyData.AllItems().Where(t => t.IsFinished == false).ToList();
 
-            if (itemsResults.results.Count == 0)
-            {
-                itemsResults.status = OperationStatusCodes.NOT_FOUND;
-            }
-            else
-            {
-                itemsResults.status = OperationStatusCodes.SUCCESS;
-            }
+            itemsResults.status = itemsResults.results.Any() ? OperationStatusCodes.SUCCESS : OperationStatusCodes.NOT_FOUND;
 
             return itemsResults;
         }
@@ -66,7 +52,7 @@ namespace Operator
 
             itemsResults.results = _dummyData.AllItems().Where(t => t.StartDate >= fromDate && t.EndDate <= toDate).ToList();
 
-            if(itemsResults.results.Count == 0)
+            if(!itemsResults.results.Any())
             {
                 itemsResults.status = OperationStatusCodes.NOT_FOUND;
                 return itemsResults;
