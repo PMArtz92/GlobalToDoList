@@ -1,6 +1,6 @@
 # Global Todo List
 
-This is a global todo list project. Implemented using .net core and MSTest frameworks. This project have two main operators. Unit test for both operators have writen in TodoAppTest project.
+This is a global todo list project. Implemented using .net core and MSTest frameworks. This project have main operators. Unit test for operators have writen in TodoAppTest project.
 
 Shared folder contains the all sharable classes for both main and test project. In shared folder we have
 
@@ -10,4 +10,4 @@ Shared folder contains the all sharable classes for both main and test project. 
 
 Then we have Operator Class Library which contains the main Operators for main project.
 
-TodoAppTest Project contains two test operator methods which contains test methods for main operator methos.
+TodoAppTest Project contains test operators which contains test methods for main operator methos.

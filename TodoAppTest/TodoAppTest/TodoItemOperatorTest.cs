@@ -147,12 +147,26 @@ namespace TodoAppTest
         }
 
         [TestMethod]
-        public void SetTodoItemComplete_ItemFound_ReturnSuccess()
+        public void SetTodoItemComplete_HaveUnfinishedTasks_ReturnFail()
         {
             TodoItemModel item = new TodoItemModel
             {
                 Name = "Item11",
                 ItemId = 1
+            };
+
+            int result = _todoItemOperator.SetTodoItemComplete(item);
+
+            Assert.IsTrue(result == OperationStatusCodes.INVALID_OPERARION);
+        }
+
+        [TestMethod]
+        public void SetTodoItemComplete_HaveFinishedTasks_ReturnSuccess()
+        {
+            TodoItemModel item = new TodoItemModel
+            {
+                Name = "Item11",
+                ItemId = 2
             };
 
             int result = _todoItemOperator.SetTodoItemComplete(item);
