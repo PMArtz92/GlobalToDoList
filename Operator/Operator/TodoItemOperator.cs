@@ -92,9 +92,16 @@ namespace Operator
 
             TodoItemModel todoItemToComplete = _dummyData.AllItems().FirstOrDefault(t => t.ItemId == todoItem.ItemId);
 
-            if(todoItemToComplete == null)
+            if (todoItemToComplete == null)
             {
                 return OperationStatusCodes.NOT_FOUND;
+            }
+
+            bool haveNotCompleteTasks = todoItemToComplete.TodoTasks.Any(s => !s.IsFinished);
+
+            if (haveNotCompleteTasks)
+            {
+                return OperationStatusCodes.INVALID_OPERARION;
             }
 
             todoItemToComplete.IsComplete = true;
